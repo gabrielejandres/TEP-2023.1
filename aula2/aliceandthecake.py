@@ -10,7 +10,15 @@ def check_if_is_a_cake(num_pieces, pieces):
         print("YES")
         return 
     
-    piece_weight = sum(pieces)
+    piece_weight = 0
+    aux = {}
+    for i in range(num_pieces):
+        piece_weight += pieces[i]
+        if pieces[i] in aux:
+            aux[pieces[i]] += 1
+        else:
+            aux[pieces[i]] = 1
+            
     queue = []
     heapq.heappush(queue, piece_weight)
     while len(queue) < num_pieces:
@@ -18,16 +26,20 @@ def check_if_is_a_cake(num_pieces, pieces):
         heapq.heappop(queue)
         fl = math.floor(current_piece / 2)
         cl = math.ceil(current_piece / 2)
-        if fl in pieces:
-            pieces.remove(fl)
+        if fl in aux and aux[fl] > 0:
+            aux[fl] -= 1
             num_pieces -= 1
         else:
             heapq.heappush(queue, fl)
-        if cl in pieces:
-            pieces.remove(cl)
+        if fl in aux and aux[fl] == 0:
+            aux.pop(fl)
+        if cl in aux and aux[cl] > 0:
+            aux[cl] -= 1
             num_pieces -= 1
         else:
             heapq.heappush(queue, cl)
+        if cl in aux and aux[cl] == 0:
+            aux.pop(cl)
             
     if len(queue) == 0:
         print("YES")
