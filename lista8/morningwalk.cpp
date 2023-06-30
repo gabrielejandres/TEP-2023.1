@@ -47,7 +47,7 @@ class Graph {
 
     public:
         Graph(int numVertices) {
-            for (int i = 0 ; i < numVertices ; i++) {
+            for (int i = 0; i < numVertices; i++) {
                 Vertex* vertex = new Vertex(i);
                 vertices.insert({i, vertex});
             }
